@@ -59,6 +59,32 @@
             <artifactId>vertx-core</artifactId>
             <version>${vertex.io.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-unit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>>vertx-web-templ-freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>>com.github.rjeschke</groupId>
+            <artifactId>txtmark</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-jdbc-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.4</version>
+        </dependency>
 
         <dependency>
             <groupId>io.netty</groupId>
