@@ -62,24 +62,34 @@
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-unit</artifactId>
+            <version>${vertex.io.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
+            <version>${vertex.io.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.vertx/vertx-web-templ-freemarker -->
         <dependency>
             <groupId>io.vertx</groupId>
-            <artifactId>>vertx-web-templ-freemarker</artifactId>
+            <artifactId>vertx-web-templ-freemarker</artifactId>
+            <version>${vertex.io.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.rjeschke/txtmark -->
         <dependency>
-            <groupId>>com.github.rjeschke</groupId>
+            <groupId>com.github.rjeschke</groupId>
             <artifactId>txtmark</artifactId>
+            <version>0.13</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.vertx/vertx-jdbc-client -->
         <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-jdbc-client</artifactId>
+            <version>${vertex.io.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
@@ -113,7 +123,7 @@
         <pluginManagement>
             <plugins>
                 <!-- We specify the Maven compiler plugin as we need to set it to Java 1.8 -->
-                <plugin>
+                <!--<plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.1</version>
                     <configuration>
@@ -124,9 +134,36 @@
                             <arg>-Acodetrans.config=${basedir}/codetrans-config.json</arg>
                         </compilerArgs>
                     </configuration>
+                </plugin>-->
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>vertx-maven-plugin</artifactId>
+                    <version>1.0.7</version>
+                    <executions>
+                        <execution>
+                            <id>vmp</id>
+                            <goals>
+                                <goal>initialize</goal>
+                                <goal>package</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <redeploy>true</redeploy>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
