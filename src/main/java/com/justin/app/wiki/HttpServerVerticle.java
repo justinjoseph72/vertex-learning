@@ -5,9 +5,7 @@ import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.sql.SQLConnection;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -52,6 +50,7 @@ public class HttpServerVerticle extends AbstractVerticle {
     }
 
     private void indexHandler(final RoutingContext routingContext) {
+
         DeliveryOptions options = new DeliveryOptions().addHeader("action", "all-pages");
         vertx.eventBus().send(wikiDbqueue, new JsonObject(), options, reply -> {
             if (reply.succeeded()) {
@@ -134,9 +133,31 @@ public class HttpServerVerticle extends AbstractVerticle {
     }
 
     private void pageCreateHandler(final RoutingContext routingContext) {
+        String pageName = routingContext.request().getParam("name");
+        String location = "/wiki/" + pageName;
+        if(pageName == null || pageName.isEmpty()){
+            location = "/";
+        }
+        routingContext.response().setStatusCode(303);
+        routingContext.response().putHeader("Location", location);
+        routingContext.response().end();
     }
 
     private void pageDeletionHandler(final RoutingContext routingContext) {
+        String id = routingContext.request().getParam("id");
+        JsonObject request = new JsonObject().put("id",id);
+        DeliveryOptions options = new DeliveryOptions().addHeader("action","delete-page");
+        vertx.eventBus().send(wikiDbqueue,request,options,reply->{
+           if(reply.succeeded()){
+               routingContext.response().setStatusCode(303);
+               routingContext.response().putHeader("Location","/");
+               routingContext.response().end();
+           }
+           else {
+               routingContext.fail(reply.cause());
+           }
+        });
+
     }
 
 
