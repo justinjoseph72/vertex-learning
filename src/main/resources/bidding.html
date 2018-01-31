@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Bidding page</title>
+    <script src="js/mainJs.js"></script>
+    <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+    <script src="js/vertx-eventbus.js"></script>
+
+</head>
+<body>
+
+<h3>Auction 1</h3>
+<div id="error_message"></div>
+<form>
+    Current price:
+    <span id="current_price"></span>
+    <div>
+        <label for="my_bid_value">Your offer:</label>
+        <input id="my_bid_value" type="text">
+        <input type="button" onclick="bid();" value="Bid">
+    </div>
+    <div>
+        Feed:
+        <textarea id="feed" rows="4" cols="50" readonly></textarea>
+    </div>
+</form>
+</body>
+
+</html>
