@@ -1,7 +1,6 @@
 package com.justin.app.auction;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Launcher;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.bridge.BridgeEventType;
 import io.vertx.ext.bridge.PermittedOptions;
@@ -16,10 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AuctionService extends AbstractVerticle {
-
-    /*public static void main(String... args){
-        Launcher.main(new String[] {"run",AuctionService.class.getName(),"-ha"});
-    }*/
 
     @Override
     public void start() {
@@ -43,7 +38,7 @@ public class AuctionService extends AbstractVerticle {
     private Router auctionApiRouter() {
         AuctionRepository repository = new AuctionRepository(vertx.sharedData());
         AuctionValidator validator = new AuctionValidator(repository);
-        AuctionHandler handler = new AuctionHandler(repository,validator);
+        AuctionHandler handler = new AuctionHandler(repository, validator);
         Router router = Router.router(vertx);
         router.route().handler(BodyHandler.create());
         router.route().handler(CorsHandler.create("*")
@@ -54,12 +49,12 @@ public class AuctionService extends AbstractVerticle {
                 .allowedHeader("Access-Control-Allow-Origin")
                 .allowedHeader("Access-Control-Allow-Credentials")
                 .allowedHeader("Content-Type")
-                );
+        );
         router.route().consumes("application/json");
         router.route().produces("application/json");
         router.route("/auctions/:id").handler(handler::initAuctionInSharedData);
         router.get("/auctions/:id").handler(handler::handleGetAuction);
-        router.get("/auctions/:id").handler(handler::handleChangeAuctionPrice);
+        router.patch("/auctions/:id").handler(handler::handleChangeAuctionPrice);
         return router;
     }
 
