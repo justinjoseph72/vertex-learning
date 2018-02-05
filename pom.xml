@@ -15,6 +15,7 @@
         <connect-api-proto.version>1.1.1-SNAPSHOT</connect-api-proto.version>
         <signed-requests.utils.version>1.1-SNAPSHOT</signed-requests.utils.version>
         <vertex.io.version>3.5.0</vertex.io.version>
+        <main.verticle>com.justin.app.auction.AuctionService</main.verticle>
     </properties>
 
     <dependencies>
@@ -139,7 +140,7 @@
                         </compilerArgs>
                     </configuration>
                 </plugin>-->
-                <plugin>
+                <!--<plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>vertx-maven-plugin</artifactId>
                     <version>1.0.7</version>
@@ -154,6 +155,48 @@
                     </executions>
                     <configuration>
                         <redeploy>true</redeploy>
+                    </configuration>
+                </plugin>-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>2.4.3</version>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>shade</goal>
+                            </goals>
+                            <configuration>
+                                <transformers>
+                                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                        <manifestEntries>
+                                            <Main-Class>io.vertx.core.Launcher</Main-Class>
+                                            <Main-Verticle>${main.verticle}</Main-Verticle>
+                                        </manifestEntries>
+                                    </transformer>
+                                    <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                        <resource>META-INF/services/io.vertx.core.spi.VerticleFactory</resource>
+                                    </transformer>
+                                </transformers>
+                                <artifactSet>
+                                </artifactSet>
+                                <outputFile>${project.build.directory}/${project.artifactId}-${project.version}-fat.jar</outputFile>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.5.0</version>
+                    <configuration>
+                        <mainClass>io.vertx.core.Launcher</mainClass>
+                        <arguments>
+                            <argument>run</argument>
+                            <argument>${main.verticle}</argument>
+                        </arguments>
                     </configuration>
                 </plugin>
             </plugins>

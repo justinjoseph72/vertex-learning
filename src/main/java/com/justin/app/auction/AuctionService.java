@@ -17,9 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuctionService extends AbstractVerticle {
 
-    public static void main(String... args){
+    /*public static void main(String... args){
         Launcher.main(new String[] {"run",AuctionService.class.getName(),"-ha"});
-    }
+    }*/
 
     @Override
     public void start() {
